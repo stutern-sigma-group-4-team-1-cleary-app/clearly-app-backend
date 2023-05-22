@@ -1,7 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
 import { config } from "./src/config/index.js";
-const path =require('path');
 
 const app = express();
 
