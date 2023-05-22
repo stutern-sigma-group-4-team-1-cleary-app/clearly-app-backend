@@ -6,6 +6,6 @@ const tryCatch = (func) => {
   };
 };
 
-module.exports = {
+export {
   tryCatch,
 };
