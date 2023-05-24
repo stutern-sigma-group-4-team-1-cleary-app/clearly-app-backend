@@ -6,6 +6,4 @@ const tryCatch = (func) => {
   };
 };
 
-export {
-  tryCatch,
-};
+export { tryCatch };

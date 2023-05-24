@@ -1,38 +1,44 @@
-import mongoose from mongoose;
+import { Schema, model } from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new Schema(
+  {
     fullName: {
       type: String,
       required: true,
+      lowercase: true,
     },
-    emailAddress: {
+    email: {
       type: String,
       required: true,
+      unique: true,
+      lowercase: true,
+      immutable: true,
+      validate: {
+        validator:
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+        message: "Please add a valid email string to the email path.",
+      },
     },
     password: {
       type: String,
       required: true,
-      min: 8,
-      max: 16,
     },
     confirmPassword: {
       type: String,
       required: true,
-      min: 8,
-      max: 16,
     },
     phoneNumber: {
       type: String,
       required: true,
     },
-    code:{
-        type: String,
-        required: true,
-        min: 4,
-        max:4
-    }
-  });
-  
-  const User = mongoose.model("User", userSchema);
+    resetCode: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-  export default User;
+export default model("User", UserSchema);
