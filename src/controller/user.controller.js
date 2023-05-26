@@ -1,6 +1,6 @@
 import User from "../model/user.model.js";
 import { createUserValidator, loginValidator, } from "../validators/user.validator.js";
-import { BadUserRequestError } from "../error/error.js";
+import { BadUserRequestError, NotFoundError } from "../error/error.js";
 import { genToken } from "../utils/jwt.utils.js";
 import bcrypt from "bcrypt";
 import { config } from "../config/index.js";
@@ -36,6 +36,20 @@ export default class UserController {
         signup_token: genToken(newUser),
       },
     });
+  }
+
+  // SEARCH USER
+  static async searchUser(req, res,) {
+    const user = await User.findOne({ email: req.query?.email })
+    if (!user) throw new NotFoundError('User not found')
+
+    res.status(200).json({
+      message: "User found successfully",
+      status: "Success",
+      data: {
+        user
+      }
+    })
   }
 
   // LOGIN USER

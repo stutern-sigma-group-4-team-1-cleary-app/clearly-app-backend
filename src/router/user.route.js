@@ -9,6 +9,7 @@ const router = new express.Router();
 // User Creation Route
 router.post("/create", tryCatch(UserController.createUser));
 router.post("/login", tryCatch(UserController.loginUser));
+router.get("/", tryCatch(UserController.searchUser));
 
 //Exporting the User Router
 export { router };

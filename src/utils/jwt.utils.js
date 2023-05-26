@@ -6,7 +6,7 @@ export function genToken(user){
     const payload = {
         email: user.email
       }
-      const token = jwt.sign(payload, config.jwt_key, { expiresIn: 60 * 60 * 24 });
+      const token = jwt.sign(payload, config.jwt_key, { expiresIn: "1hr" });
       return token 
   }
   

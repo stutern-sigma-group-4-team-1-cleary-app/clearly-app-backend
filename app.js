@@ -11,10 +11,9 @@ import { router as userRouter } from "./src/router/user.route.js";
 const app = express();
 
 // Database connection
-mongoose
-  .connect(config.mongodb_connection_url)
-  .then(() => console.log("Database Connection Established"))
-  .catch((e) => console.log(e.message));
+// console.log(config)
+console.log(config.mongodb_connection_url)
+mongoose.connect(config.mongodb_connection_url).then(() => console.log("Database Connection Established")).catch((e) => console.log(e.message));
 
 // PORT configuration
 const port = config.port || 8080;
