@@ -31,8 +31,7 @@ export default class UserController {
       message: "User created successfully",
       status: "Success",
       data: {
-        user: newUser,
-        signup_token: genToken(newUser),
+        user: newUser
       },
     });
   }
