@@ -31,10 +31,6 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    resetCode: {
-      type: String,
-      required: true,
-    },
   },
   {
     timestamps: true,

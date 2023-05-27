@@ -26,7 +26,6 @@ export const createUserValidator = Joi.object({
     .messages({
       "string.pattern.base": "Phone number must consist of 10 digit",
     }),
-  resetCode: Joi.string().required(),
 }).strict();
 
 export const loginValidator = Joi.object({

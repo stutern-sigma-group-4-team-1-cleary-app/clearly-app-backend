@@ -22,7 +22,6 @@ export default class UserController {
       fullName: req.body.fullName,
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
-      resetCode: req.body.resetCode,
       confirmPassword: req.body.confirmPassword,
       password: hashPassword,
     };
@@ -37,6 +36,7 @@ export default class UserController {
       },
     });
   }
+
 
   // SEARCH USER
   static async searchUser(req, res,) {
@@ -60,6 +60,8 @@ export default class UserController {
       throw new BadUserRequestError("Please provide your email before login");
 
     const user = await User.findOne({ email: req.body.email });
+    if (!user) throw new NotFoundError("User not found");
+
     const hash = bcrypt.compareSync(req.body.password, user.password);
     if (!hash) throw new BadUserRequestError("email or password is incorrect");
     res.status(200).json({
