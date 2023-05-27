@@ -22,7 +22,7 @@ export default class UserController {
       fullName: req.body.fullName,
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
-      confirmPassword: req.body.confirmPassword,
+      confirmPassword: hashPassword,
       password: hashPassword,
     };
 
