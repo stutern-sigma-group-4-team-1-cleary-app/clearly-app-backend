@@ -30,7 +30,7 @@ let transporter = nodemailer.createTransport({
 //   }
 //   return console.log("email-sent");
 // });
-export default async function sentMail(user, resetCode) {
+export async function sentMail(user, resetCode) {
   let mailOptions = {
     from: "clearlyappmail@gmail.com",
     to: `${user}`,

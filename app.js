@@ -4,7 +4,6 @@ import morgan from "morgan";
 import { globalErrorHandler } from "./src/utils/errorHandler.js";
 import { config } from "./src/config/index.js";
 import path from "path";
-import { sentMail } from "./src/Email/emailSending.js";
 
 // The Routes
 import { router as userRouter } from "./src/router/user.route.js";
@@ -21,8 +20,6 @@ mongoose
 
 // PORT configuration
 const port = config.port || 8080;
-
-sentMail();
 //SET-UP HBS
 // app.engine('handlebars',exphbs());
 // app.set('view engine','handlebars');

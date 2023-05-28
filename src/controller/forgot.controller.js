@@ -8,7 +8,7 @@ import {
 } from "../validators/user.validator.js";
 import { verified } from "../utils/jwt.utils.js";
 import { userPassword } from "../utils/passwordHashing.js";
-import sentMail from "../Email/emailSending.js";
+import { sentMail } from "../Email/emailSending.js";
 
 export const emailForPassword = async (req, res) => {
   const { error } = passwordEmailValidator(req.body);
