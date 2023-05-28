@@ -1,28 +1,16 @@
 import express from "express";
-import ForgotController, {
+import {
   emailForPassword,
   codeResetVerification,
   passwordReset,
 } from "../controller/forgot.controller.js";
-import { userAuthMiddleWare } from "../middlewares/auth.middleware";
+import { userAuthMiddleWare } from "../middlewares/auth.middleware.js";
 import { tryCatch } from "../utils/tryCatchHandler.js";
 
 const passwordRouter = express.Router();
 
-passwordRouter.post(
-  "/email",
-  userAuthMiddleWare,
-  tryCatch(ForgotController.emailForPassword)
-);
-passwordRouter.post(
-  "/code",
-  userAuthMiddleWare,
-  tryCatch(ForgotController.codeResetVerification)
-);
-passwordRouter.post(
-  "/changepassword",
-  userAuthMiddleWare,
-  tryCatch(ForgotController.passwordReset)
-);
+passwordRouter.post("/email", tryCatch(emailForPassword));
+passwordRouter.post("/code", tryCatch(codeResetVerification));
+passwordRouter.post("/changepassword", tryCatch(passwordReset));
 
 export { passwordRouter };

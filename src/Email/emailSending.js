@@ -30,15 +30,12 @@ let transporter = nodemailer.createTransport({
 //   }
 //   return console.log("email-sent");
 // });
-
-const sentMail = async (user, resetCode) => {
+export default async function sentMail(user, resetCode) {
   let mailOptions = {
     from: "clearlyappmail@gmail.com",
     to: `${user}`,
     subject: "request for a new password",
     html: `your password generation code is ${resetCode}`,
   };
-  await transporter.sendMail(mailOptions);
-};
-
-export { sentMail };
+  transporter.sendMail(mailOptions);
+}
