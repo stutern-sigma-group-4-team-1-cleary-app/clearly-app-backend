@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { config } from "../config";
 
 const saltRounds = Number(config.bcrypt_salt_round);
 
@@ -7,7 +8,4 @@ const userPassword = async (password) => {
   return passwordValue;
 };
 
-
-export {
-    userPassword
-}
+export { userPassword };
