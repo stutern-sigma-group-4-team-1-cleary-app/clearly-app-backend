@@ -2,7 +2,7 @@
   "name": "clearly_app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start-dev": "set NODE_ENV=development && nodemon app.js",
     "start-staging": "set NODE_ENV=staging && nodemon app.js",
@@ -16,9 +16,16 @@
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-handlebars": "^7.0.7",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.2.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.2",
+    "nodemailer-express-handlebars": "^6.1.0",
+    "random-js": "^2.1.0",
+    "random-number": "^0.0.9",
+    "random.js": "^0.1.0",
+    "unique-random": "^3.0.0"
   }
 }
