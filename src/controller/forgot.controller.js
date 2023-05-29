@@ -9,6 +9,7 @@ import {
 import { verified } from "../utils/jwt.utils.js";
 import { userPassword } from "../utils/passwordHashing.js";
 import { sentMail } from "../Email/emailSending.js";
+const arrMail = [];
 
 export const emailForPassword = async (req, res) => {
   const { error } = passwordEmailValidator.validate(req.body);
@@ -16,7 +17,7 @@ export const emailForPassword = async (req, res) => {
     const { email } = req.body;
     const found = await User.findOne({ email: email }, { password: 0 });
     if (found) {
-      req.headers.cookies = found._id;
+    arrMail[0].push(found._id);
       // console.log(req.headers.cookies)
       const userCode = codeReset();
       found.resetCode = `${userCode}`;
@@ -43,15 +44,20 @@ export const emailForPassword = async (req, res) => {
 export const codeResetVerification = async (req, res) => {
   // const user = verified(req.user);
   const { resetCode } = req.body;
-  console.log(req.headers.cookies);
   const { error } = verifyCode.validate(req.body);
   if (!error) {
+    const userId = arrMail[0];
     const foundUser = await User.findOne({
-      _id: process.env.FOUNDUSERID,
+      _id: `${userId}`,
       resetCode:  resetCode,
     });
     if (foundUser) {
       //redirect to forgot password page
+      res.status(200).json({
+        success: true,
+        message: "successfully changed",
+        data: {},
+      });
     } else {
       res.status(400).json({
         success: false,
@@ -68,7 +74,8 @@ export const passwordReset = async (req, res) => {
   const { password } = req.body;
   const { error } = verifyPasswordField.validate(req.bod);
   if (!error) {
-    const foundUser = await User.findOne({ _id: req.pass });
+     const userId = arrMail[0];
+    const foundUser = await User.findOne({ _id: `${userId}` });
     const newPassword = userPassword(password);
     foundUser.password = `${newPassword}`;
     foundUser.save();
@@ -77,6 +84,7 @@ export const passwordReset = async (req, res) => {
       message: "password successfully updated",
       data: {},
     });
+     arrMail[0]='';
   } else {
     res.status(422).json(error);
   }
