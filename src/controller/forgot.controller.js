@@ -22,6 +22,7 @@ export const emailForPassword = async (req, res) => {
       found.resetCode = `${userCode}`;
       found.save();
       await sentMail(found.email, `${userCode}`);
+      process.env.FOUNDUSERID = found._id;
       res.status(200).json({
         success: true,
         message:
@@ -46,8 +47,8 @@ export const codeResetVerification = async (req, res) => {
   const { error } = verifyCode.validate(req.body);
   if (!error) {
     const foundUser = await User.findOne({
-      _id: req.pass,
-      resetCode: codeReset,
+      _id: process.env.FOUNDUSERID,
+      resetCode:  resetCode,
     });
     if (foundUser) {
       //redirect to forgot password page
