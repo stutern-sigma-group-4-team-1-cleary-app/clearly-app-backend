@@ -5,10 +5,10 @@ import { Random } from "random-js";
 let transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: `${process.env.USER}`,
-    pass: `${process.env.PASS}`,
+    user: `${process.env.PRODUCTION_USER}`,
+    pass: `${process.env.PRODUCTION_PASS}`,
   },
-  from: `${process.env.USER}`,
+  from: `${process.env.PRODUCTION_PASS}`,
 });
 
 // transporter.use(
@@ -32,7 +32,7 @@ let transporter = nodemailer.createTransport({
 // });
 export async function sentMail(user, resetCode) {
   let mailOptions = {
-    from: "clearlyappmail@gmail.com",
+    from: `${process.env.PRODUCTION_USER}`,
     to: `${user}`,
     subject: "request for a new password",
     html: `your password generation code is ${resetCode}`,

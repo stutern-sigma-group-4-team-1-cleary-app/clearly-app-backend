@@ -11,15 +11,17 @@ import { userPassword } from "../utils/passwordHashing.js";
 import { sentMail } from "../Email/emailSending.js";
 
 export const emailForPassword = async (req, res) => {
-  const { error } = passwordEmailValidator(req.body);
+  const { error } = passwordEmailValidator.validate(req.body);
   if (!error) {
     const { email } = req.body;
-    const found = await User.findOne({ emailAddress: email }, { password: 0 });
+    const found = await User.findOne({ email: email }, { password: 0 });
     if (found) {
-      req.pass = found._id;
-      found.resetCode = `${codeReset}`;
+      req.headers.cookies = found._id;
+      // console.log(req.headers.cookies)
+      const userCode = codeReset();
+      found.resetCode = `${userCode}`;
       found.save();
-      await sentMail(found.email, codeReset);
+      await sentMail(found.email, `${userCode}`);
       res.status(200).json({
         success: true,
         message:
@@ -40,9 +42,13 @@ export const emailForPassword = async (req, res) => {
 export const codeResetVerification = async (req, res) => {
   // const user = verified(req.user);
   const { resetCode } = req.body;
-  const { error } = verifyCode(resetCode);
+  console.log(req.headers.cookies);
+  const { error } = verifyCode.validate(req.body);
   if (!error) {
-    const foundUser = await findOne({ _id: req.pass, resetCode: code });
+    const foundUser = await User.findOne({
+      _id: req.pass,
+      resetCode: codeReset,
+    });
     if (foundUser) {
       //redirect to forgot password page
     } else {
@@ -59,9 +65,9 @@ export const codeResetVerification = async (req, res) => {
 
 export const passwordReset = async (req, res) => {
   const { password } = req.body;
-  const { error } = verifyPasswordField(password);
+  const { error } = verifyPasswordField.validate(req.bod);
   if (!error) {
-    const foundUser = await findOne({ _id: req.pass });
+    const foundUser = await User.findOne({ _id: req.pass });
     const newPassword = userPassword(password);
     foundUser.password = `${newPassword}`;
     foundUser.save();

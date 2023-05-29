@@ -31,7 +31,7 @@ app.use(express.static(path.join(".", "src", "public")));
 // Routes
 app.use("/api/clearly/user", userRouter);
 
-app.use("api/clearly/forgotpassword", passwordRouter);
+app.use("/api/clearly/forgotpassword", passwordRouter);
 
 app.use(globalErrorHandler);
 

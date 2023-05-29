@@ -26,7 +26,7 @@ export const createUserValidator = Joi.object({
     .messages({
       "string.pattern.base": "Phone number must consist of 10 digit",
     }),
-  resetCode: Joi.string().required(),
+  resetCode: Joi.string(),
 }).strict();
 
 export const loginValidator = Joi.object({
@@ -47,15 +47,11 @@ export const passwordEmailValidator = Joi.object({
 });
 
 export const verifyCode = Joi.object({
-  resetCode: Joi.string()
-    .required()
-    .min(4)
-    .max(4)
-    .messages({
-      "any.required": "the reset code field cannot be empty",
-      "string.min": "code cannot be less than 4",
-      "string.max": "code cannot be more than 4",
-    }),
+  resetCode: Joi.string().required().min(4).max(4).messages({
+    "any.required": "the reset code field cannot be empty",
+    "string.min": "code cannot be less than 4",
+    "string.max": "code cannot be more than 4",
+  }),
 });
 
 export const verifyPasswordField = Joi.object({
@@ -70,5 +66,5 @@ export const verifyPasswordField = Joi.object({
     }),
   confirmPassword: Joi.string().required().valid(Joi.ref("password")).messages({
     "any.only": "Confirm password must be the same as the password",
-  })
-})
+  }),
+});

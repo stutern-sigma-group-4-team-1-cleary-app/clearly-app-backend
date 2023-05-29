@@ -33,7 +33,6 @@ const UserSchema = new Schema(
     },
     resetCode: {
       type: String,
-      required: true,
     },
   },
   {
