@@ -24,6 +24,7 @@
     "morgan": "^1.10.0",
     "nodemailer": "^6.9.2",
     "nodemailer-express-handlebars": "^6.1.0",
+    "nodemon": "^2.0.22",
     "random-js": "^2.1.0",
     "random-number": "^0.0.9",
     "random.js": "^0.1.0",
