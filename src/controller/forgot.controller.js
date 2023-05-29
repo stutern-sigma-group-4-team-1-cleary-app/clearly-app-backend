@@ -17,7 +17,7 @@ export const emailForPassword = async (req, res) => {
     const { email } = req.body;
     const found = await User.findOne({ email: email }, { password: 0 });
     if (found) {
-    arrMail[0].push(found._id);
+    arrMail.push(found._id);
       // console.log(req.headers.cookies)
       const userCode = codeReset();
       found.resetCode = `${userCode}`;
@@ -48,7 +48,7 @@ export const codeResetVerification = async (req, res) => {
   if (!error) {
     const userId = arrMail[0];
     const foundUser = await User.findOne({
-      _id: `${userId}`,
+      email: `${userId}`,
       resetCode:  resetCode,
     });
     if (foundUser) {
@@ -75,7 +75,7 @@ export const passwordReset = async (req, res) => {
   const { error } = verifyPasswordField.validate(req.bod);
   if (!error) {
      const userId = arrMail[0];
-    const foundUser = await User.findOne({ _id: `${userId}` });
+    const foundUser = await User.findOne({ email: `${userId}` });
     const newPassword = userPassword(password);
     foundUser.password = `${newPassword}`;
     foundUser.save();

@@ -1,6 +1,8 @@
 import nodemailer from "nodemailer";
 import path from "path";
 import { Random } from "random-js";
+import dotenv from "dotenv";
+dotenv.config()
 
 let transporter = nodemailer.createTransport({
   service: "gmail",

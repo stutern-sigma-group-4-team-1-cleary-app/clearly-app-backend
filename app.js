@@ -13,10 +13,7 @@ import { passwordRouter } from "./src/router/password_reset.route.js";
 const app = express();
 
 // Database connection
-mongoose
-  .connect(config.mongodb_connection_url)
-  .then(() => console.log("Database Connection Established"))
-  .catch((e) => console.log(e.message));
+mongoose.connect(config.mongodb_connection_url).then(() => console.log("Database Connection Established")).catch((e) => console.log(e.message));
 
 // PORT configuration
 const port = config.port || 8080;

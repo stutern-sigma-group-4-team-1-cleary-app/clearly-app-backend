@@ -1,6 +1,6 @@
 import User from "../model/user.model.js";
 import { createUserValidator, loginValidator, } from "../validators/user.validator.js";
-import { BadUserRequestError } from "../error/error.js";
+import { BadUserRequestError, NotFoundError } from "../error/error.js";
 import { genToken } from "../utils/jwt.utils.js";
 import bcrypt from "bcrypt";
 import { config } from "../config/index.js";
@@ -22,8 +22,7 @@ export default class UserController {
       fullName: req.body.fullName,
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
-      resetCode: req.body.resetCode,
-      confirmPassword: req.body.confirmPassword,
+      confirmPassword: hashPassword,
       password: hashPassword,
     };
 
@@ -32,10 +31,24 @@ export default class UserController {
       message: "User created successfully",
       status: "Success",
       data: {
-        user: newUser,
-        signup_token: genToken(newUser),
+        user: newUser
       },
     });
+  }
+
+
+  // SEARCH USER
+  static async searchUser(req, res,) {
+    const user = await User.findOne({ email: req.query?.email })
+    if (!user) throw new NotFoundError('User not found')
+
+    res.status(200).json({
+      message: "User found successfully",
+      status: "Success",
+      data: {
+        user
+      }
+    })
   }
 
   // LOGIN USER
@@ -46,6 +59,8 @@ export default class UserController {
       throw new BadUserRequestError("Please provide your email before login");
 
     const user = await User.findOne({ email: req.body.email });
+    if (!user) throw new NotFoundError("User not found");
+
     const hash = bcrypt.compareSync(req.body.password, user.password);
     if (!hash) throw new BadUserRequestError("email or password is incorrect");
     res.status(200).json({
