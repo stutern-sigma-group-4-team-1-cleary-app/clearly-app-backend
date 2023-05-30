@@ -68,3 +68,10 @@ export const verifyPasswordField = Joi.object({
     "any.only": "Confirm password must be the same as the password",
   }),
 });
+
+export const navigationLink = Joi.object({
+  page: Joi.string().required().message({
+    "any.required":
+      "Enter a value for pages as this field cannot be left empty",
+  }),
+});
