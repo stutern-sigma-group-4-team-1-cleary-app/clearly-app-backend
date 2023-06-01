@@ -69,9 +69,18 @@ export const verifyPasswordField = Joi.object({
   }),
 });
 
-export const navigationLink = Joi.object({
-  page: Joi.string().required().message({
-    "any.required":
-      "Enter a value for pages as this field cannot be left empty",
+export const covertToFavourite = Joi.object({
+  sentence: Joi.string().required().messages({
+    "any.required": "The sentence field cannot be left empty",
+  }),
+  option: Joi.string().required().messages({
+    "any.required": "The option field cannot be left empty",
   }),
 });
+
+// export const navigationLink = Joi.object({
+//   page: Joi.string().required().message({
+//     "any.required":
+//       "Enter a value for pages as this field cannot be left empty",
+//   }),
+// });

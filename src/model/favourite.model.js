@@ -1,18 +1,14 @@
 import { Schema, model } from "mongoose";
 
 const favouriteSchema = new Schema({
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
+  isAudio: Boolean,
+  url: {
+    type: String,
   },
-  favourite: [
-    {
-      itemId: {
-        type: Schema.Types.ObjectId,
-        ref: "Sentence",
-      },
-    },
-  ],
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 export const Favourite = model("Favourite", favouriteSchema);

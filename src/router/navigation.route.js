@@ -1,12 +1,12 @@
-import { navigationController } from "../controller/pages.controller";
+// import { navigationController } from "../controller/pages.controller";
 
-import express from "express";
-import { tryCatch } from "../utils/tryCatchHandler";
+// import express from "express";
+// import { tryCatch } from "../utils/tryCatchHandler";
 
-const navRouter = express.Router();
+// const navRouter = express.Router();
 
-//click on a navigation link
+// //click on a navigation link
 
-navRouter.post("/api/clearly/navigation", tryCatch(navigationController));
+// navRouter.post("/api/clearly/navigation", tryCatch(navigationController));
 
-export default navRouter;
+// export default navRouter;
