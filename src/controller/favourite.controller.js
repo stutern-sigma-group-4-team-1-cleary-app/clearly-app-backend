@@ -9,7 +9,7 @@ dotenv.config();
 export const getFavourites = async (req, res) => {
   const user = req.user;
   const getUser = await User.findOne(
-    { email: "michaelwinner@gmail.com" },
+    { email: user },
     { password: 0, confirmPassword: 0 }
   ).populate("favourite");
   if (getUser) {
