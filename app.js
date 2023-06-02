@@ -35,7 +35,7 @@ app.use("/api/clearly/user", userRouter);
 
 app.use("/api/clearly/forgotpassword", passwordRouter);
 
-app.use("/api/clearly/favourites", favoriteRouter);
+app.use("/api/clearly/favourites", favoriteRoute);
 
 // app.use(navRouter);
 
