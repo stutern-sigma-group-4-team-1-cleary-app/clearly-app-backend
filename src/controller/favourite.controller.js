@@ -7,7 +7,7 @@ dotenv.config();
 
 //searches for a user that matches the user saved to req.user and retrieves details of the user alongside it's favourite items
 export const getFavourites = async (req, res) => {
-  const user = req.user;
+  const user = req.user.email;
   const getUser = await User.findOne(
     { email: user },
     { password: 0, confirmPassword: 0 }
@@ -38,7 +38,7 @@ export const getFavourites = async (req, res) => {
 // };
 //when user creates a sentence the save button posts to this controller which converts based on the option selected by the user either audio/sign language
 export const addToFavourite = async (req, res) => {
-  const user = req.user;
+  const user = req.user.email;
   const { error } = covertToFavourite.validate(req.body);
   if (!error) {
     const { sentence, option } = req.body;
@@ -83,7 +83,7 @@ export const addToFavourite = async (req, res) => {
             },
           });
         }
-        return res.status(404).json({
+          return res.status(404).json({
           message: false,
           message: "Invalid user",
           data: {},
@@ -129,7 +129,8 @@ export const addToFavourite = async (req, res) => {
             },
           });
         }
-       return res.status(404).json({
+
+          return res.status(404).json({
           success: false,
           message: "Invalid User",
           data: {},
@@ -142,11 +143,11 @@ export const addToFavourite = async (req, res) => {
       }
     }
   }
-  return res.status(422).json(error);
+        return res.status(422).json(error);
 };
 
 export const removeFromFavourite = async (req, res) => {
-  const user = req.user;
+  const user = req.user.email;
   const { id } = req.params;
   await User.updateOne({ email: user }, { $pull: { favourite: id } });
   res.status(200).json({
