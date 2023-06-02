@@ -74,7 +74,7 @@ export const addToFavourite = async (req, res) => {
         if (foundUser) {
           foundUser.favourite.push(favouriteItem);
           await foundUser.save();
-          res.status(200).json({
+         return res.status(200).json({
             success: true,
             message: "Sentence successfully converted into audio",
             data: {
@@ -120,7 +120,7 @@ export const addToFavourite = async (req, res) => {
           foundUser.favourite.push(favouriteItem);
           console.log(foundUser);
           await foundUser.save();
-          res.status(200).json({
+          return res.status(200).json({
             success: true,
             message:
               "Text successfully converted into sign language illustration",
@@ -129,7 +129,7 @@ export const addToFavourite = async (req, res) => {
             },
           });
         }
-        res.status(404).json({
+       return res.status(404).json({
           success: false,
           message: "Invalid User",
           data: {},
