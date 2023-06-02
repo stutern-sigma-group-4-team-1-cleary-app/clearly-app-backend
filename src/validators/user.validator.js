@@ -22,10 +22,11 @@ export const createUserValidator = Joi.object({
   }),
   phoneNumber: Joi.string()
     .required()
-    .pattern(/^[0-9]{11}$/)
+    .pattern(/^[0-9]{10}$/)
     .messages({
-      "string.pattern.base": "Phone number must consist of 11 digit",
+      "string.pattern.base": "Phone number must consist of 10 digit",
     }),
+  resetCode: Joi.string(),
 }).strict();
 
 export const loginValidator = Joi.object({
@@ -67,3 +68,19 @@ export const verifyPasswordField = Joi.object({
     "any.only": "Confirm password must be the same as the password",
   }),
 });
+
+export const covertToFavourite = Joi.object({
+  sentence: Joi.string().required().messages({
+    "any.required": "The sentence field cannot be left empty",
+  }),
+  option: Joi.string().required().messages({
+    "any.required": "The option field cannot be left empty",
+  }),
+});
+
+// export const navigationLink = Joi.object({
+//   page: Joi.string().required().message({
+//     "any.required":
+//       "Enter a value for pages as this field cannot be left empty",
+//   }),
+// });
