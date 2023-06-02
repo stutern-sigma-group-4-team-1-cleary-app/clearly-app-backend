@@ -77,10 +77,15 @@ export const covertToFavourite = Joi.object({
     "any.required": "The option field cannot be left empty",
   }),
 });
+export const signLanguageOption = Joi.object({
+  sentence: Joi.string().required().messages({
+    "any.required": "The sentence field cannot be left empty",
+  }),
+  option: Joi.string().required().messages({
+    "any.required": "The option field cannot be left empty",
+  }),
+  country: Joi.string().required().messages({
+    "any.required": "The country field cannot be left empty",
+  }),
+});
 
-// export const navigationLink = Joi.object({
-//   page: Joi.string().required().message({
-//     "any.required":
-//       "Enter a value for pages as this field cannot be left empty",
-//   }),
-// });
