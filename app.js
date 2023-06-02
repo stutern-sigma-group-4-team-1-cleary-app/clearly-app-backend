@@ -8,6 +8,9 @@ import path from "path";
 // The Routes
 import { router as userRouter } from "./src/router/user.route.js";
 import { passwordRouter } from "./src/router/password_reset.route.js";
+import { router as homepageRouter } from "./src/router/homepage.route.js";
+// import navRouter from "./src/router/navigation.route.js";
+import favoriteRouter from "./src/router/favourite.route.js";
 
 // Creating the Expres App
 const app = express();
@@ -32,6 +35,10 @@ app.use(express.static(path.join(".", "src", "public")));
 app.use("/api/clearly/user", userRouter);
 app.use("/api/clearly/forgotpassword", passwordRouter);
 app.use("/api/clearly/homepage", homepageRouter);
+
+app.use("/api/clearly/favourites", favoriteRouter);
+
+// app.use(navRouter);
 
 app.use(globalErrorHandler);
 

@@ -10,7 +10,7 @@ import { tryCatch } from "../utils/tryCatchHandler.js";
 
 const favoriteRouter = express.Router();
 
-favoriteRouter.post("/create", userAuthMiddleWare, tryCatch(addToFavourite));
+favoriteRouter.post("/create", tryCatch(addToFavourite));
 favoriteRouter.get("/", userAuthMiddleWare, tryCatch(getFavourites));
 favoriteRouter.patch("/:id", userAuthMiddleWare, tryCatch(removeFromFavourite));
 
