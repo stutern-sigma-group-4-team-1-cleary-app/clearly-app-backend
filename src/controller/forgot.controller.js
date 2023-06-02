@@ -1,19 +1,15 @@
-import express from "express";
 import User from "../model/user.model.js";
 import { codeReset } from "../utils/codeGeneration.js";
-import dotenv from "dotenv";
+
 import {
   passwordEmailValidator,
   verifyCode,
   verifyPasswordField,
 } from "../validators/user.validator.js";
+import { verified } from "../utils/jwt.utils.js";
 import { userPassword } from "../utils/passwordHashing.js";
 import { sentMail } from "../Email/emailSending.js";
-dotenv.config();
-
-const router = express.Router();
-
-const arrMail = [];
+import app from "../../app.js";
 
 export const emailForPassword = async (req, res) => {
   const { error } = passwordEmailValidator.validate(req.body);
@@ -21,22 +17,20 @@ export const emailForPassword = async (req, res) => {
     const { email } = req.body;
     const found = await User.findOne({ email: email }, { password: 0 });
     if (found) {
-      req.app.locals.userMail = found.email;
-      arrMail.push(found.email);
       const userCode = codeReset();
-      found.resetCode = userCode;
+      found.resetCode = `${userCode}`;
       found.save();
-      await sentMail(found.email, userCode);
-      process.env.FOUNDUSERID = found._id;
+      await sentMail(found.email, `${userCode}`);
+      res.cookie("user", `${found._id}`, { httpOnly: true });
       res.status(200).json({
         success: true,
         message:
-          "A reset code has been sent to your email. Please ensure to check both your inbox and spam.",
+          "a reset code has been sent to your email, please ensure to check both your inbox and spam",
       });
     } else {
       res.status(404).json({
         success: false,
-        message: "User not found.",
+        message: " user not found",
         data: {},
       });
     }
@@ -46,21 +40,27 @@ export const emailForPassword = async (req, res) => {
 };
 
 export const codeResetVerification = async (req, res) => {
-  const { resetCode } = req.body;
+  // const user = verified(req.user);
+  const { resetCode, email } = req.body;
   const { error } = verifyCode.validate(req.body);
   if (!error) {
-    const userEmail = req.app.locals.userMail;
-    const foundUser = await User.findOne({ email: userEmail, resetCode: resetCode });
+    const contentId = req.headers.cookie.split(";")[0];
+    const newContentId = contentId.split("user=")[1];
+    const foundUser = await User.findOne({
+      _id: newContentId,
+      resetCode: resetCode,
+    });
     if (foundUser) {
+      //redirect to forgot password page
       res.status(200).json({
         success: true,
-        message: "Successfully changed.",
+        message: "code has been successfully verified",
         data: {},
       });
     } else {
       res.status(400).json({
         success: false,
-        message: "You entered an invalid code.",
+        message: "you entered an invalid code",
         data: {},
       });
     }
@@ -69,27 +69,25 @@ export const codeResetVerification = async (req, res) => {
   }
 };
 
-
 export const passwordReset = async (req, res) => {
   const { password } = req.body;
-  const { error } = verifyPasswordField.validate(req.body);
+  const { error } = verifyPasswordField.validate(req.bod);
   if (!error) {
-    const userEmail = req.app.locals.userMail;
-    const foundUser = await User.findOne({ email: userEmail });
+    const contentId = req.headers.cookie.split(";")[0];
+    const newContentId = contentId.split("user=")[1];
+    const foundUser = await User.findOne({ _id: newContentId });
+
     if (foundUser) {
       const newPassword = await userPassword(password);
+      console.log(newPassword);
       foundUser.password = newPassword;
+      foundUser.confirmPassword = newPassword;
+      foundUser.resetCode = "";
       foundUser.save();
+      res.clearCookie("user");
       res.status(200).json({
         success: true,
-        message: "Password successfully updated.",
-        data: {},
-      });
-      arrMail[0] = "";
-    } else {
-      res.status(404).json({
-        success: false,
-        message: "User not found.",
+        message: "password successfully updated",
         data: {},
       });
     }

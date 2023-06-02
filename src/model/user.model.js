@@ -34,6 +34,12 @@ const UserSchema = new Schema(
     resetCode: {
       type: String,
     },
+    favourite: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Favourite",
+      },
+    ],
   },
   {
     timestamps: true,

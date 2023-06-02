@@ -26,6 +26,7 @@ export const createUserValidator = Joi.object({
     .messages({
       "string.pattern.base": "Phone number must consist of 11 digit",
     }),
+  resetCode: Joi.string(),
 }).strict();
 
 export const loginValidator = Joi.object({
@@ -67,3 +68,24 @@ export const verifyPasswordField = Joi.object({
     "any.only": "Confirm password must be the same as the password",
   }),
 });
+
+export const covertToFavourite = Joi.object({
+  sentence: Joi.string().required().messages({
+    "any.required": "The sentence field cannot be left empty",
+  }),
+  option: Joi.string().required().messages({
+    "any.required": "The option field cannot be left empty",
+  }),
+});
+export const signLanguageOption = Joi.object({
+  sentence: Joi.string().required().messages({
+    "any.required": "The sentence field cannot be left empty",
+  }),
+  option: Joi.string().required().messages({
+    "any.required": "The option field cannot be left empty",
+  }),
+  country: Joi.string().required().messages({
+    "any.required": "The country field cannot be left empty",
+  }),
+});
+
