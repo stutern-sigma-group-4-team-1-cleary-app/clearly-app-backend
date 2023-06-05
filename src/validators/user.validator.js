@@ -89,3 +89,32 @@ export const signLanguageOption = Joi.object({
   }),
 });
 
+export const searchSentenceValidator = Joi.object({
+  sentence: Joi.string().required().messages({
+    "any.required": "The sentence field cannot be left empty",
+  }),
+});
+
+export const copyImageValidator = Joi.object({
+  imageUrl: Joi.string().required().messages({
+    "any.required": "The imageUrl field cannot be left empty",
+  }),
+});
+
+export const downloadImageValidator = Joi.object({
+  imageUrl: Joi.string().required().messages({
+    "any.required": "The imageUrl field cannot be left empty",
+  }),
+});
+
+export const shareImageValidator = Joi.object({
+  imageUrl: Joi.string().required().messages({
+    "any.required": "The imageUrl field cannot be left empty",
+  }),
+});
+
+export const favoriteImageValidator = Joi.object({
+  imageUrl: Joi.string().required().messages({
+    "any.required": "The imageUrl field cannot be left empty",
+  }),
+});
