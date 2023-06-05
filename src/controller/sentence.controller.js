@@ -12,15 +12,13 @@ import {
   favoriteImageValidator
 } from "../validators/user.validator.js";
 
+import { BadUserRequestError, NotFoundError } from "../error/error.js";
+
 export const searchSentence = async (req, res) => {
   try {
     const { error, value } = searchSentenceValidator.validate(req.query);
     if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.details[0].message,
-        data: [],
-      });
+      throw new BadUserRequestError(error.details[0].message);
     }
 
     const { sentence } = value;
@@ -72,11 +70,19 @@ export const searchSentence = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: [],
-    });
+    if (error instanceof BadUserRequestError) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+        data: [],
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        data: [],
+      });
+    }
   }
 };
 
@@ -85,11 +91,7 @@ export const copyImage = async (req, res) => {
   try {
     const { error, value } = copyImageValidator.validate(req.body);
     if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.details[0].message,
-        data: [],
-      });
+      throw new BadUserRequestError(error.details[0].message);
     }
 
     const { imageUrl } = value;
@@ -116,11 +118,19 @@ export const copyImage = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: [],
-    });
+    if (error instanceof BadUserRequestError) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+        data: [],
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        data: [],
+      });
+    }
   }
 };
 
@@ -128,11 +138,7 @@ export const downloadImage = async (req, res) => {
   try {
     const { error, value } = downloadImageValidator.validate(req.body);
     if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.details[0].message,
-        data: [],
-      });
+      throw new BadUserRequestError(error.details[0].message);
     }
 
     const { imageUrl } = value;
@@ -145,11 +151,19 @@ export const downloadImage = async (req, res) => {
     response.data.pipe(res);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: [],
-    });
+    if (error instanceof BadUserRequestError) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+        data: [],
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        data: [],
+      });
+    }
   }
 };
 
@@ -157,11 +171,7 @@ export const shareImage = async (req, res) => {
   try {
     const { error, value } = shareImageValidator.validate(req.body);
     if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.details[0].message,
-        data: [],
-      });
+      throw new BadUserRequestError(error.details[0].message);
     }
 
     const { imageUrl } = value;
@@ -174,11 +184,19 @@ export const shareImage = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: [],
-    });
+    if (error instanceof BadUserRequestError) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+        data: [],
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        data: [],
+      });
+    }
   }
 };
 
@@ -186,11 +204,7 @@ export const favoriteImage = async (req, res) => {
   try {
     const { error, value } = favoriteImageValidator.validate(req.body);
     if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.details[0].message,
-        data: [],
-      });
+      throw new BadUserRequestError(error.details[0].message);
     }
 
     const { imageUrl } = value; 
@@ -198,20 +212,12 @@ export const favoriteImage = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-        data: [],
-      });
+      throw new NotFoundError("User not found");
     }
 
     const sentence = await Sentence.findOne({ signLanguageResult: imageUrl });
     if (!sentence) {
-      return res.status(404).json({
-        success: false,
-        message: "Sentence not found",
-        data: [],
-      });
+      throw new NotFoundError("Sentence not found");
     }
 
     if (user.favourite.includes(sentence._id)) {
@@ -232,11 +238,25 @@ export const favoriteImage = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: [],
-    });
+    if (error instanceof NotFoundError) {
+      res.status(404).json({
+        success: false,
+        message: error.message,
+        data: [],
+      });
+    } else if (error instanceof BadUserRequestError) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+        data: [],
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        data: [],
+      });
+    }
   }
 };
 
@@ -248,23 +268,15 @@ export const unfavoriteImage = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-        data: [],
-      });
+      throw new NotFoundError("User not found");
     }
 
     // Find the index of the image ID in the user's favorite array
     const imageIndex = user.favourite.findIndex((imageId) => imageId.toString() === id.toString());
 
-    // If the image ID is not found in the favorite array, return an error
+    // If the image ID is not found in the favorite array, throw an error
     if (imageIndex === -1) {
-      return res.status(404).json({
-        success: false,
-        message: "Image is not favorited",
-        data: [],
-      });
+      throw new NotFoundError("Image is not favorited");
     }
 
     // Remove the image ID from the favorite array
@@ -280,10 +292,18 @@ export const unfavoriteImage = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: [],
-    });
+    if (error instanceof NotFoundError) {
+      res.status(404).json({
+        success: false,
+        message: error.message,
+        data: [],
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        data: [],
+      });
+    }
   }
 };
