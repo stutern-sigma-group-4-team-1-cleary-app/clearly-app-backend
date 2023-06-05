@@ -5,5 +5,6 @@ export const staging = {
   mongodb_connection_url: process.env.STAGING_MONGODB_CONNECTION_URL,
   bcrypt_salt_round: +process.env.STAGING_BCRYPT_SALT_ROUND,
   jwt_key: process.env.STAGING_JWT_KEY,
+  sentence_img_key: process.env.STAGING_SENTENCE_IMG_KEY,
   port: +process.env.PORT
 };

@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import User from "../model/user.model.js";
 import Sentence from "../model/sentence.model.js";
+import { config } from "../config/index.js";
 import {
   searchSentenceValidator,
   copyImageValidator,
@@ -31,7 +32,7 @@ export const searchSentence = async (req, res) => {
         q: `${sentence} in american sign language illustration`,
       },
       headers: {
-        "X-RapidAPI-Key": "a7ede7bb28msh55996049d5a95adp1472a6jsn25fd4868fec7",
+        "X-RapidAPI-Key": config.sentence_img_key,
         "X-RapidAPI-Host": "bing-image-search1.p.rapidapi.com",
       },
     };
