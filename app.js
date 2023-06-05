@@ -10,16 +10,13 @@ import { router as userRouter } from "./src/router/user.route.js";
 import { passwordRouter } from "./src/router/password_reset.route.js";
 import favoriteRouter from './src/router/favourite.route.js';
 import { router as homepageRouter } from "./src/router/homepage.route.js";
-
+import sentenceRoutes from './src/router/sentence.route.js';
 
 // Creating the Expres App
 const app = express();
 
 // Database connection
-mongoose
-  .connect(config.mongodb_connection_url)
-  .then(() => console.log("Database Connection Established"))
-  .catch((e) => console.log(e.message));
+mongoose.connect(config.mongodb_connection_url).then(() => console.log("Database Connection Established")).catch((e) => console.log(e.message));
 
 // PORT configuration
 const port = config.port || 8080;
@@ -36,12 +33,11 @@ app.use("/api/clearly/user", userRouter);
 app.use("/api/clearly/forgotpassword", passwordRouter);
 
 app.use("/api/clearly/favourites", favoriteRouter);
-
 // app.use(navRouter);
-
 app.use("/api/clearly/homepage", homepageRouter);
-
 app.use("/api/clearly/favourites", favoriteRouter);
+app.use('/api/clearly/sentences', sentenceRoutes);
+
 
 app.use(globalErrorHandler);
 
