@@ -89,3 +89,9 @@ export const signLanguageOption = Joi.object({
   }),
 });
 
+export const translation = Joi.object({
+  option: Joi.string(),
+  text: Joi.string(),
+  from: Joi.string(),
+  to: Joi.string()
+});
