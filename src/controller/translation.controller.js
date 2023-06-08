@@ -25,9 +25,18 @@ export const translateFromTextToText = async (req, res) => {
 
       try {
         const response = await axios.request(options);
-        console.log(response.data);
+        const item ={...response};
+        res.status(200).json({
+          success: true,
+          message: "Translation was successful",
+          data:item
+        });
       } catch (error) {
-        console.error(error);
+        res.status(400).json({
+          success: false,
+          message: "Translation failed",
+          data: {},
+        });
       }
     } else if (option == "sound") {
       const encodedParams = new URLSearchParams();
@@ -48,13 +57,22 @@ export const translateFromTextToText = async (req, res) => {
 
       try {
         const response = await axios.request(options);
-        console.log(response.data);
+        const item = { ...response };
+        res.status(200).json({
+          success: true,
+          message: "Translation successful",
+          data: item,
+        });
       } catch (error) {
-        console.error(error);
+        res.status(400).json({
+          success: false,
+          message: "Translation failed",
+          data: {},
+        });
       }
     }
   }
-  return res.status(200).json({
+  return res.status(422).json({
     success: false,
     message: "failed validation",
     data: error,
@@ -81,9 +99,18 @@ export const translateFromSpeech = async (req, res) => {
 
     try {
       const response = await axios.request(options);
-      console.log(response.data);
+      const item = { ...response };
+      res.status(200).json({
+        success: true,
+        message: "Speech to text was successful",
+        data: item,
+      });
     } catch (error) {
-      console.error(error);
+      res.status(400).json({
+        success: false,
+        message: "Translation failed",
+        data: {},
+      });
     }
   }
 };
