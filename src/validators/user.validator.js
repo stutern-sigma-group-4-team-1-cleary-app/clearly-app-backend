@@ -118,3 +118,10 @@ export const favoriteImageValidator = Joi.object({
     "any.required": "The imageUrl field cannot be left empty",
   }),
 });
+
+export const translation = Joi.object({
+  option: Joi.string(),
+  text: Joi.string(),
+  from: Joi.string(),
+  to: Joi.string()
+});
