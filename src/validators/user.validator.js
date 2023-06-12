@@ -120,8 +120,15 @@ export const favoriteImageValidator = Joi.object({
 });
 
 export const translation = Joi.object({
-  option: Joi.string(),
-  text: Joi.string(),
-  from: Joi.string(),
-  to: Joi.string()
+  option: Joi.string().valid("text", "speech").required(),
+  value: Joi.string().required(),
+  from: Joi.string().when("option", {
+    is: "text",
+    then: Joi.required(),
+    otherwise: Joi.optional()
+  }),
+  to: Joi.string().required()
 });
+
+
+
