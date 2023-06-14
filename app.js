@@ -1,18 +1,24 @@
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import * as socket from "socket.io";
 import { globalErrorHandler } from "./src/utils/errorHandler.js";
 import { config } from "./src/config/index.js";
 import path from "path";
+import bodyParser from "body-parser";
 
 // The Routes
 import { router as userRouter } from "./src/router/user.route.js";
 import { passwordRouter } from "./src/router/password_reset.route.js";
-import favoriteRouter from './src/router/favourite.route';
+import favoriteRouter from "./src/router/favourite.route.js";
 import { router as homepageRouter } from "./src/router/homepage.route.js";
-import  translateRouter from './src/router/translate.route';
+import contactRouter from "./src/router/contact.route.js";
+import sentenceRoutes from "./src/router/sentence.route.js";
+import translateRouter from "./src/router/translate.route.js";
+import historyRoutes from "./src/router/history.route.js";
+import { Socket } from "dgram";
 
-// Creating the Expres App
+// Creating the Express App
 const app = express();
 
 // Database connection
@@ -23,34 +29,31 @@ mongoose
 
 // PORT configuration
 const port = config.port || 8080;
-//SET-UP HBS
-// app.engine('handlebars',exphbs());
-// app.set('view engine','handlebars');
+
 // Middlewares
 app.use(morgan("tiny"));
 app.use(express.json());
 app.use(express.static(path.join(".", "src", "public")));
+app.use(bodyParser.json());
 
 // Routes
 app.use("/api/clearly/user", userRouter);
 app.use("/api/clearly/forgotpassword", passwordRouter);
-
 app.use("/api/clearly/favourites", favoriteRouter);
-
-// app.use(navRouter);
-
 app.use("/api/clearly/homepage", homepageRouter);
-
-app.use("/api/clearly/favourites", favoriteRouter);
-
+app.use("/api/clearly/sentences", sentenceRoutes);
 app.use("/api/clearly/translate", translateRouter);
+app.use("/api/clearly/history", historyRoutes);
+app.use("/api/clearly/contacts", contactRouter);
 
 app.use(globalErrorHandler);
 
 // Setting up the express server
-const server=app.listen(port, () => {
-  console.log(`Server runnning on port: ${port}`);
+const server = app.listen(port, () => {
+  console.log(`Server running on port: ${port}`);
 });
 
+//messaging
+const io = socket(server);
 
-export default app;
+export { app, io };
