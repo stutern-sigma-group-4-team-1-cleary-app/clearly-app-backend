@@ -48,8 +48,9 @@ app.use("/api/clearly/translate", translateRouter);
 app.use(globalErrorHandler);
 
 // Setting up the express server
-app.listen(port, () => {
+const server=app.listen(port, () => {
   console.log(`Server runnning on port: ${port}`);
 });
+
 
 export default app;
