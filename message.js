@@ -7,16 +7,28 @@ io.on("connection", (socket) => {
     socket.join(data);
     socket.on("message", async (msg) => {
       io.sockets.in(data).emit("chat message", msg);
-      const foundAUser = await User.findeOne({ fullName: msg.from });
-      const foundUser = await User.findOne({ fullName: msg.to });
-      await Message.create({
-        isParent: false,
-        Message: msg.parent,
-        from: foundAUser._id,
-        to: foundUser._id,
-        message: msg.text,
-        time: Date.now(),
-      });
+      const foundAUser = await User.findeOne({ phoneNumber: msg.from });
+      const foundUser = await User.findOne({ phoneNumber: msg.to });
+      if (msg.isParent == false) {
+        await Message.create({
+          closedMessageBetween: data,
+          isParent: false,
+          messageId: msg.parent,
+          from: foundAUser._id,
+          to: foundUser._id,
+          message: msg.text,
+          time: Date.now(),
+        });
+      } else {
+        await Message.create({
+          closedMessageBetween: data,
+          messageId: foundAUser._id,
+          from: foundAUser._id,
+          to: foundUser._id,
+          message: msg.text,
+          time: Date.now(),
+        });
+      }
     });
   });
 });

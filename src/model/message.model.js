@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const messageSchema = new Schema({
+  closedMessageBewteen: String,
   parentMessage: {
     isParent: {
       type: Boolean,
