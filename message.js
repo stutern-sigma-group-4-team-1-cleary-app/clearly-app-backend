@@ -10,6 +10,8 @@ io.on("connection", (socket) => {
       const foundAUser = await User.findeOne({ fullName: msg.from });
       const foundUser = await User.findOne({ fullName: msg.to });
       await Message.create({
+        isParent: false,
+        Message: msg.parent,
         from: foundAUser._id,
         to: foundUser._id,
         message: msg.text,

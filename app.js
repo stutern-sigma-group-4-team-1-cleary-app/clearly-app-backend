@@ -16,6 +16,7 @@ import contactRouter from "./src/router/contact.route.js";
 import sentenceRoutes from "./src/router/sentence.route.js";
 import translateRouter from "./src/router/translate.route.js";
 import historyRoutes from "./src/router/history.route.js";
+import chatRouter from "./src/router/chat.route.js";
 import { Socket } from "dgram";
 
 // Creating the Express App
@@ -45,6 +46,7 @@ app.use("/api/clearly/sentences", sentenceRoutes);
 app.use("/api/clearly/translate", translateRouter);
 app.use("/api/clearly/history", historyRoutes);
 app.use("/api/clearly/contacts", contactRouter);
+app.use("/api/clearly", chatRouter);
 
 app.use(globalErrorHandler);
 

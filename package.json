@@ -29,6 +29,7 @@
     "random-js": "^2.1.0",
     "random-number": "^0.0.9",
     "random.js": "^0.1.0",
+    "socket.io": "^4.6.2",
     "unique-random": "^3.0.0"
   }
 }
