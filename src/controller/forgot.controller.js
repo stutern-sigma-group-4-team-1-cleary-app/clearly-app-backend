@@ -9,7 +9,7 @@ import {
 import { verified } from "../utils/jwt.utils.js";
 import { userPassword } from "../utils/passwordHashing.js";
 import { sentMail } from "../Email/emailSending.js";
-import app from "../../app.js";
+// import app from "../../app.js";
 
 export const emailForPassword = async (req, res) => {
   const { error } = passwordEmailValidator.validate(req.body);

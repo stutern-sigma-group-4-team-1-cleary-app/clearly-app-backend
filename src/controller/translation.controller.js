@@ -95,6 +95,11 @@ export const translateFromTextToText = async (req, res) => {
   } else {
     throw new BadUserRequestError("Invalid option");
   }
+  return res.status(422).json({
+    success: false,
+    message: "failed validation",
+    data: error,
+  });
 };
 
 export const translateFromSpeech = async (req, res) => {

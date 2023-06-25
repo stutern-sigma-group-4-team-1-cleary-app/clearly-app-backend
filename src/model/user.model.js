@@ -40,6 +40,12 @@ const UserSchema = new Schema(
         ref: "Favourite",
       },
     ],
+    contacts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Contact",
+      },
+    ],
   },
   {
     timestamps: true,

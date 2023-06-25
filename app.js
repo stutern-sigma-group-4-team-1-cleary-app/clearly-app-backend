@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import * as socket from "Server";
 import { globalErrorHandler } from "./src/utils/errorHandler.js";
 import { config } from "./src/config/index.js";
 import path from "path";
@@ -9,11 +10,14 @@ import bodyParser from 'body-parser';
 // The Routes
 import { router as userRouter } from "./src/router/user.route.js";
 import { passwordRouter } from "./src/router/password_reset.route.js";
-import favoriteRouter from './src/router/favourite.route.js';
+import favoriteRouter from "./src/router/favourite.route.js";
 import { router as homepageRouter } from "./src/router/homepage.route.js";
-import sentenceRoutes from './src/router/sentence.route.js';
-import translateRouter from './src/router/translate.route.js';
-import historyRoutes from './src/router/history.route.js';
+import contactRouter from "./src/router/contact.route.js";
+import sentenceRoutes from "./src/router/sentence.route.js";
+import translateRouter from "./src/router/translate.route.js";
+import historyRoutes from "./src/router/history.route.js";
+import chatRouter from "./src/router/chat.route.js";
+import { Socket } from "dgram";
 
 // Creating the Express App
 const app = express();
@@ -35,15 +39,20 @@ app.use("/api/clearly/user", userRouter);
 app.use("/api/clearly/forgotpassword", passwordRouter);
 app.use("/api/clearly/favourites", favoriteRouter);
 app.use("/api/clearly/homepage", homepageRouter);
-app.use('/api/clearly/sentences', sentenceRoutes);
+app.use("/api/clearly/sentences", sentenceRoutes);
 app.use("/api/clearly/translate", translateRouter);
-app.use('/api/clearly/history', historyRoutes);
+app.use("/api/clearly/history", historyRoutes);
+app.use("/api/clearly/contacts", contactRouter);
+app.use("/api/clearly", chatRouter);
 
 app.use(globalErrorHandler);
 
 // Setting up the express server
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });
 
-export default app;
+//messaging
+const io = new Server (server)
+
+export { app, io };
