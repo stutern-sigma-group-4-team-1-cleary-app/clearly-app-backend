@@ -1,7 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import * as socket from "Server";
+import { Server } from "socket.io";
+import { createServer } from "http";
 import { globalErrorHandler } from "./src/utils/errorHandler.js";
 import { config } from "./src/config/index.js";
 import path from "path";
@@ -17,10 +18,11 @@ import sentenceRoutes from "./src/router/sentence.route.js";
 import translateRouter from "./src/router/translate.route.js";
 import historyRoutes from "./src/router/history.route.js";
 import chatRouter from "./src/router/chat.route.js";
-import { Socket } from "dgram";
+// import { Socket } from "dgram";
 
 // Creating the Express App
 const app = express();
+const server = createServer(app);
 
 // Database connection
 mongoose.connect(config.mongodb_connection_url).then(() => console.log("Database Connection Established")).catch((e) => console.log(e.message));
@@ -48,11 +50,11 @@ app.use("/api/clearly", chatRouter);
 app.use(globalErrorHandler);
 
 // Setting up the express server
-const server = app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });
 
 //messaging
-const io = new Server (server)
+const io = new Server(server);
 
 export { app, io };
