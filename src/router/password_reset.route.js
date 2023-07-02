@@ -4,7 +4,7 @@ import {
   codeResetVerification,
   passwordReset,
 } from "../controller/forgot.controller.js";
-// import { userAuthMiddleWare } from "../middlewares/auth.middleware.js";
+import { userAuthMiddleWare } from "../middlewares/auth.middleware.js";
 import { tryCatch } from "../utils/tryCatchHandler.js";
 
 const passwordRouter = express.Router();

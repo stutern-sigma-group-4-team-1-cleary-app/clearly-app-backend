@@ -1,4 +1,4 @@
-// import { userAuthMiddleWare } from "../middlewares/auth.middleware.js";
+import { userAuthMiddleWare } from "../middlewares/auth.middleware.js";
 import { tryCatch } from "../utils/tryCatchHandler.js";
 
 import {
@@ -10,8 +10,8 @@ import express from "express";
 
 const translateRouter = express.Router();
 
-translateRouter.post("/speech", tryCatch(translateFromSpeech));
+translateRouter.post("/speech", userAuthMiddleWare, tryCatch(translateFromSpeech));
 
-translateRouter.post( "/text", tryCatch(translateFromTextToText));
+translateRouter.post( "/text", userAuthMiddleWare, tryCatch(translateFromTextToText));
 
 export default translateRouter;
